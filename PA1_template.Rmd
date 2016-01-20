@@ -1,9 +1,17 @@
 ---
-title: "Reproducible Research: Peer Assessment 1"
-output: 
+title: 'Reproducible Research: Peer Assessment 1'
+output:
   html_document:
-    keep_md: true
+    keep_md: yes
+  pdf_document: default
 ---
+
+
+## Loading libraries
+```{r, echo=TRUE}
+library(ggplot2)
+library(dplyr)
+```
 
 
 ## Loading and preprocessing the data
@@ -29,12 +37,32 @@ Explicitly convert the date field.
 activity$date <- as.Date(activity$date, format = "%Y-%m-%d")
 ```
 
+
 ## What is mean total number of steps taken per day?
 
 
+### Calculate total number of steps taken per day    
+
+```{r, echo=TRUE}
+activity.per.day <- activity %>% group_by(date) %>% summarize (steps = sum(steps))
+```
+
+
+### Show the total number of steps per day with an histogram
+
+```{r, echo=TRUE}
+qplot(date, data=activity.per.day, weight=steps, geom="histogram", binwidth=1)
+```
+
+
+### Mean and median of the total number of steps taken per day
+
+```{r, echo=TRUE}
+mean(activity.per.day$steps, na.rm = T)
+median(activity.per.day$steps, na.rm = T)
+```
 
 ## What is the average daily activity pattern?
-
 
 
 ## Imputing missing values
