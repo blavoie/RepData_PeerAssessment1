@@ -58,8 +58,8 @@ qplot(date, data=activity.per.day, weight=steps, geom="histogram", binwidth=1)
 ### Mean and median of the total number of steps taken per day
 
 ```{r, echo=TRUE}
-mean(activity.per.day$steps, na.rm = T)
-median(activity.per.day$steps, na.rm = T)
+round(mean(activity.per.day$steps, na.rm = T))
+round(median(activity.per.day$steps, na.rm = T))
 ```
 
 ## What is the average daily activity pattern?
@@ -71,21 +71,62 @@ Calculate the average steps for each 5 minutes interval.
 ```{r, echo=TRUE}
 activity.per.5mins <- activity %>% 
   group_by(interval) %>% 
-  summarize (steps = mean(steps, na.rm = T))
+  summarize (steps.avg = round(mean(steps, na.rm = T)))
 ```
 
 Plot the result.
 
 ```{r, echo=TRUE}
-qplot(x = interval, y = steps, data = activity.per.5mins, geom = 'line')
+qplot(x = interval, y = steps.avg, data = activity.per.5mins, geom = 'line')
 ```
+
 
 ### Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps
 
-################## here
+```{r, echo=TRUE}
+filter(activity.per.5mins, steps.avg == max(activity.per.5mins$steps.avg))
+```
+
 
 ## Imputing missing values
 
+### Number of missing values
+
+```{r, echo=TRUE}
+count(filter(activity, is.na(steps)))
+```
+
+
+### Filling missing values
+
+```{r, echo=TRUE}
+activity.filled <- activity %>% 
+  inner_join(activity.per.5mins, by="interval") %>%
+  mutate(steps.filled = ifelse(is.na(steps), steps.avg, steps)) %>%
+  transmute(date = date, interval = interval, steps = steps.filled)
+```
+
+
+### Calculate total number of steps taken per day    
+
+```{r, echo=TRUE}
+activity.per.day.filled <- activity.filled %>% group_by(date) %>% summarize (steps = sum(steps))
+```
+
+
+### Show the total number of steps per day with an histogram
+
+```{r, echo=TRUE}
+qplot(date, data=activity.per.day.filled, weight=steps, geom="histogram", binwidth=1)
+```
+
+
+### Mean and median of the total number of steps taken per day
+
+```{r, echo=TRUE}
+mean(activity.per.day.filled$steps, na.rm = T)
+median(activity.per.day.filled$steps, na.rm = T)
+```
 
 
 ## Are there differences in activity patterns between weekdays and weekends?
