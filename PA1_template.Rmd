@@ -130,3 +130,13 @@ median(activity.per.day.filled$steps, na.rm = T)
 
 
 ## Are there differences in activity patterns between weekdays and weekends?
+
+```{r, echo=TRUE}
+activity.filled$day.type <- as.factor(ifelse(weekdays(activity.filled$date) %in% c("Saturday","Sunday"), 'weekend', 'weekday'))
+
+activity.per.5mins <- activity.filled %>% 
+  group_by(interval, day.type) %>% 
+  summarize (steps.avg = round(mean(steps, na.rm = T)))
+
+qplot(interval, steps.avg, data = activity.per.5mins, facets = . ~ day.type, geom='line')
+```
