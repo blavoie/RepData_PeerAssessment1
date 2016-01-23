@@ -54,7 +54,7 @@ activity.per.day <- activity %>% group_by(date) %>% summarize (steps = sum(steps
 qplot(date, data=activity.per.day, weight=steps, geom="histogram", binwidth=1)
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-6-1.png)\
+![](./figure/unnamed-chunk-6-1.png)\
 
 
 ### Mean and median of the total number of steps taken per day
@@ -96,7 +96,7 @@ Plot the result.
 qplot(x = interval, y = steps.avg, data = activity.per.5mins, geom = 'line')
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-9-1.png)\
+![](./figure/unnamed-chunk-9-1.png)\
 
 
 ### Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps
@@ -159,7 +159,7 @@ activity.per.day.filled <- activity.filled %>% group_by(date) %>% summarize (ste
 qplot(date, data=activity.per.day.filled, weight=steps, geom="histogram", binwidth=1)
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-14-1.png)\
+![](./figure/unnamed-chunk-14-1.png)\
 
 Using imputation seems to change a little bit the graph, but not that much. Given the fact that missing values were replaced by the mean for the corresponding 5 minutes period, it doesn't change the mean at all... There's just a little bit less holes in the histogram.
  
@@ -197,4 +197,4 @@ activity.per.5mins <- activity.filled %>%
 qplot(interval, steps.avg, data = activity.per.5mins, facets = . ~ day.type, geom='line')
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-16-1.png)\
+![](./figure/unnamed-chunk-16-1.png)\

@@ -50,7 +50,7 @@ activity.per.day <- activity %>% group_by(date) %>% summarize (steps = sum(steps
 
 ### Show the total number of steps per day with an histogram
 
-```{r, echo=TRUE}
+```{r, echo=TRUE, fig.path="./figure/"}
 qplot(date, data=activity.per.day, weight=steps, geom="histogram", binwidth=1)
 ```
 
@@ -76,7 +76,7 @@ activity.per.5mins <- activity %>%
 
 Plot the result.
 
-```{r, echo=TRUE}
+```{r, echo=TRUE, fig.path="./figure/"}
 qplot(x = interval, y = steps.avg, data = activity.per.5mins, geom = 'line')
 ```
 
@@ -116,7 +116,7 @@ activity.per.day.filled <- activity.filled %>% group_by(date) %>% summarize (ste
 
 ### Show the total number of steps per day with an histogram
 
-```{r, echo=TRUE}
+```{r, echo=TRUE, fig.path="./figure/"}
 qplot(date, data=activity.per.day.filled, weight=steps, geom="histogram", binwidth=1)
 ```
 
@@ -132,7 +132,7 @@ median(activity.per.day.filled$steps, na.rm = T)
 
 ## Are there differences in activity patterns between weekdays and weekends?
 
-```{r, echo=TRUE}
+```{r, echo=TRUE, fig.path="./figure/"}
 activity.filled$day.type <- 
   as.factor(ifelse(weekdays(activity.filled$date) %in% c("Saturday","Sunday"), 'weekend', 'weekday'))
 
